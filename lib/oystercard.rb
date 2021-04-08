@@ -42,5 +42,3 @@ class OysterCard
     @balance -= amount
   end
 end
-
-"test"
