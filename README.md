@@ -17,4 +17,7 @@ By the end of my pairing session on the second day, my partner and I reached the
 
 I updated my code in this repo with the progress we made today. 
 
+## Day 3 Progress
+Went through steps 8 - 11 again to really nail down the concepts of stubbing and creating doubles to test classes in isolation. More detailed commits in my partner's repo: https://github.com/Mintar89/oystercard
+
 
