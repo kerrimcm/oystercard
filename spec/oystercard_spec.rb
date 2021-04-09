@@ -1,7 +1,8 @@
 require 'oystercard'
 
 describe OysterCard do
-  let(:station) { double :station }
+  let(:entry_station) { double :station }
+  let(:exit_station)  { double :station }
 
   context '#balance' do
     it 'creates new card with 0 balance' do
@@ -34,35 +35,50 @@ describe OysterCard do
 
     it 'changes the value of in_journey to true' do
       allow(subject).to receive(:minimum_balance?).and_return false
-      subject.touch_in(station)
+      subject.touch_in(entry_station)
       expect(subject.in_journey?).to be true
     end 
 
     it 'raises an error if balance is less than 1' do
-      expect { subject.touch_in(station) }.to raise_error('Insufficient funds, please top up')
+      expect { subject.touch_in(entry_station) }.to raise_error('Insufficient funds, please top up')
     end
 
     it 'stores the value of entry_station' do
       allow(subject).to receive(:minimum_balance?).and_return false
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq(station)
+      subject.touch_in(entry_station)
+      expect(subject.entry_station).to eq(entry_station)
     end
   end 
 
   context '#touch_out' do
-    it { is_expected.to respond_to(:touch_out) }
+    it { is_expected.to respond_to(:touch_out).with(1).argument }
 
     it 'changes the value of in_journey back to false' do
       allow(subject).to receive(:minimum_balance?).and_return false
-      subject.touch_in(station)
-      subject.touch_out
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
       expect(subject.in_journey?).to be false
     end 
 
     it 'deducts the minimum charge from the card' do
       allow(subject).to receive(:minimum_balance?).and_return false
-      subject.touch_in(station)
-      expect { subject.touch_out }.to change { subject.balance }.by(-OysterCard::MIN_FARE)
+      subject.touch_in(entry_station)
+      expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-OysterCard::MIN_FARE)
     end
+  end 
+
+  context '#store_journeys' do  
+    it 'stores a hash of the journey to journeys' do
+      allow(subject).to receive(:minimum_balance?).and_return false
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to include ({entry_station => exit_station})
+    end 
   end
+
+  context '#journeys' do
+    it 'starts out empty' do
+      expect(subject.journeys).to be_empty
+    end 
+  end 
 end
