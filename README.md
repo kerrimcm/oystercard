@@ -20,4 +20,5 @@ I updated my code in this repo with the progress we made today.
 ## Day 3 Progress
 Went through steps 8 - 11 again to really nail down the concepts of stubbing and creating doubles to test classes in isolation. More detailed commits in my partner's repo: https://github.com/Mintar89/oystercard
 
-
+## Day 4 Progress
+Reached step 14 where we created a Station class and began breaking the Oystercard class into another Jounrney class to eventually keep track of penalty fares and zone charges. This was a very tricky step and remains incomplete. 
